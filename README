@@ -4,5 +4,5 @@ example, brownfield developments may introduce Rails, but have a large legacy
 aspect that has no need to be discarded. This legacy code may be exposed via
 standard mechanisms such as Spring, Servlets, Hibernate, etc. Maven is a
 widely used project build system for Java and so integration with that
-eco-system is also higly desirable.
+ecosystem is also higly desirable.
 
