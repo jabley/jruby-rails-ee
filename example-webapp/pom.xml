@@ -1,0 +1,102 @@
+<?xml version="1.0"?><project>
+  <parent>
+    <artifactId>example</artifactId>
+    <groupId>com.eternus.jruby.rails</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.eternus.jruby.rails</groupId>
+  <artifactId>example-webapp</artifactId>
+  <packaging>war</packaging>
+  <name>example-webapp Maven Webapp</name>
+  <version>${project.parent.version}</version>
+  <url>http://maven.apache.org</url>
+  <build>
+    <finalName>example-webapp</finalName>
+    <plugins>
+      <plugin>
+        <!-- Use ANT to do all of the stuff that maven can't do. -->
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>                  
+          <execution>
+            <phase>compile</phase>
+            <configuration>
+              <tasks xmlns:artifact="urn:maven-artifact-ant">
+                <!-- 
+                    Execute warble to create a basic war which includes the required gems and rails part. 
+                    This requires jruby -S gem install warble to have been run
+                -->
+                <exec executable="${warbler}" dir="${project.build.directory}/../src/main/rails">
+                </exec>
+                <!-- Explode the warbler war into the directory structure that the maven-war-plugin will use -->
+                <unjar src="${project.build.directory}/../src/main/rails/rails.war"
+                    dest="${project.build.directory}/${project.build.finalName}" />
+                <!-- Remove the bundled jars that warbler brings in. Maven mananges this for us -->
+                <delete>
+                  <fileset dir="${project.build.directory}/${project.build.finalName}" includes="**/*.jar" />
+                </delete>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>com.eternus.jruby.rails</groupId>
+      <artifactId>example-core</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jruby.rack</groupId>
+      <artifactId>jruby-rack</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jruby</groupId>
+      <artifactId>jruby-complete</artifactId>
+    </dependency>
+  </dependencies>
+  <profiles>
+      <profile>
+            <id>dev-windows</id>
+            <properties>
+                <warbler>warble.bat</warbler>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+        </profile>
+        <profile>
+            <id>dev-mac</id>
+            <properties>
+                <warbler>warble</warbler>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+        </profile>
+        <profile>
+            <id>dev-linux</id>
+            <properties>
+                <warbler>warble</warbler>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <os>
+                    <name>linux</name>
+                </os>
+            </activation>
+        </profile>
+
+    </profiles>
+</project>

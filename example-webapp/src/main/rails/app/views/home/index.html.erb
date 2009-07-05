@@ -1,0 +1,11 @@
+<h1>String case conversion service</h1>
+<% form_tag( :action => :convert, :method => :post ) do %>
+  <fieldset>
+    <legend>Please enter a string to be converted to lower-case</legend>
+    <%= text_field_tag :input, '' %>
+  <%= submit_tag 'Convert!' %>
+  <% if @converted %>
+  <div id="converted"><%= @converted %></div>
+  <% end %>
+  </fieldset>
+<% end %>

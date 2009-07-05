@@ -1,0 +1,49 @@
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" 
+    version="2.4">
+  <display-name>JRuby Rails Spring etc webapp</display-name>
+  
+  <!-- JRuby On Rails configuration -->
+  <context-param>
+    <param-name>rails.env</param-name>
+    <!-- TODO should this be filtered within Warbler or Spring -->
+    <param-value>development</param-value>
+  </context-param>
+  <context-param>
+    <param-name>public.root</param-name>
+    <param-value>/</param-value>
+  </context-param>
+  <context-param>
+    <param-name>jruby.max.runtimes</param-name>
+    <param-value>1</param-value>
+  </context-param>
+  
+  <!-- Spring configuration -->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+      classpath*:applicationContext.xml,
+      classpath*:dao-applicationContext.xml,
+      classpath*:services-applicationContext.xml
+    </param-value>
+  </context-param>
+  <filter>
+    <filter-name>RackFilter</filter-name>
+    <filter-class>org.jruby.rack.RackFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>RackFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <!-- Ensure that Rails is correctly initialized -->
+  <listener>
+    <listener-class>org.jruby.rack.rails.RailsServletContextListener</listener-class>
+  </listener>
+  <!-- Ensures that the Spring loads in our objects on start-up -->
+  <!--
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  -->
+</web-app>

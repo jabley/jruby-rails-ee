@@ -1,0 +1,19 @@
+<?xml version="1.0"?><project>
+  <parent>
+    <artifactId>example</artifactId>
+    <groupId>com.eternus.jruby.rails</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.eternus.jruby.rails</groupId>
+  <artifactId>example-core</artifactId>
+  <name>example-core</name>
+  <version>${project.parent.version}</version>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+    </dependency>
+  </dependencies>
+</project>

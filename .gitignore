@@ -1,0 +1,8 @@
+bin
+.classpath
+.project
+example-core/target
+example-webapp/target
+log
+tmp
+
