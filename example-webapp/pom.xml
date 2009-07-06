@@ -19,6 +19,29 @@
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>                  
           <execution>
+            <!--
+              clean warbler generated content. ideally, this would be done
+              via a profile, so that we only do it when we really need to.
+            -->
+            <id>war:clean</id>
+            <phase>clean</phase>
+            <configuration>
+              <tasks xmlns:artifact="urn:maven-artifact-ant">
+                <!-- 
+                    Execute warble to create a basic war which includes the required gems and rails part. 
+                    This requires jruby -S gem install warble to have been run
+                -->
+                <exec executable="${warbler}" dir="${project.build.directory}/../src/main/rails">
+                  <arg value="war:clean" />
+                </exec>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>war</id>
             <phase>compile</phase>
             <configuration>
               <tasks xmlns:artifact="urn:maven-artifact-ant">
