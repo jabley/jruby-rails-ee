@@ -54,9 +54,12 @@
                 <!-- Explode the warbler war into the directory structure that the maven-war-plugin will use -->
                 <unjar src="${project.build.directory}/../src/main/rails/rails.war"
                     dest="${project.build.directory}/${project.build.finalName}" />
-                <!-- Remove the bundled jars that warbler brings in. Maven mananges this for us -->
+                <!-- Remove the JRuby bundled jars that warbler brings in. Maven manages this for us. Don't delete jars in gems that warbler pulls in! -->
                 <delete>
-                  <fileset dir="${project.build.directory}/${project.build.finalName}" includes="**/*.jar" />
+                  <fileset dir="${project.build.directory}/${project.build.finalName}">
+                    <include name="**/jruby-complete-*.jar" />
+                    <include name="**/jruby-rack-*.jar" />
+                  </fileset>
                 </delete>
               </tasks>
             </configuration>
